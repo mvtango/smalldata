@@ -29,3 +29,8 @@ If you've got CSV files, you should definitively check out [q](http://harelba.gi
 
 A cookbook would be nice. Showing how to analyze log files etc.
 
+## History
+
+Used to live in a gist: https://gist.github.com/martinvirtel/94cf47f64bf304e1c66598e93cd565c4
+
+
