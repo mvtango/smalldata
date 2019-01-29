@@ -1,23 +1,23 @@
 #! /usr/bin/env python3
 """
-counter.py -- command line data science in python
+%(prog)s -- command line data science in python
 
 
-USAGE: counter.py [--sample] [--join=field1,field2] regexp [regexp2] [regexp3] [regexpn]  <FILE
+USAGE: %(prog)s [--sample] [--join=field1,field2] regexp [regexp2] [regexp3] [regexpn]  <FILE
 
-counter.py will match the regular expresion against every line in STDIN, and count the lines
+%(prog)s will match the regular expresion against every line in STDIN, and count the lines
 each string matching the expression is found. The counts are output as CSV file.
 Subexpressions (regular expression groups and named groups) are counted separately.
 (See https://docs.python.org/3/howto/regex.html for those).
 
 EXAMPLES
 
- LC_ALL=C ls ~ -l  | python3 counter.py 'Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Dec'
+ LC_ALL=C ls ~ -l  | %(prog)s  'Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Dec'
 
 will give you a stat of the months the files in your home directory were created.
 
 
- LC_ALL=C ls ~ -l  | python3 counter.py '(?P<month>Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Dec)  ?\d\d  ?(?P<year>2\d\d\d)'
+ LC_ALL=C ls ~ -l  | %(prog)s '(?P<month>Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Dec)  ?\d\d  ?(?P<year>2\d\d\d)'
 
 will give you the stats of months and years in the named regular expression groups.
 
@@ -29,7 +29,7 @@ by the string found (=key) instead, append a "_k" to the name of the named group
 
 Example:
 
-    cat /var/log/apache2/access.log | ./counter.py '(?P<time_k>03/Jan/2017:\d\d:)'
+    cat /var/log/apache2/access.log | %(prog)s '(?P<time_k>03/Jan/2017:\d\d:)'
 
 will give you a per-hour count of the requests logged in your webserver log on Jan. 3rd 2017, ordered by hour.
 (You will need a server log at the specified location containing requests for Jan. 3rd 2017 for this to work).
@@ -43,7 +43,7 @@ JOINING COUNTERS
 Normally, every named group is counted independently. You can count co-ocurrences using the --join parameter:
 
 
- LC_ALL=C ls ~ -l  | python3 counter.py --join=year,month '(?P<month>Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Dec)  ?\d\d  ?(?P<year>2\d\d\d)'
+ LC_ALL=C ls ~ -l  | %(prog)s --join=year,month '(?P<month>Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Dec)  ?\d\d  ?(?P<year>2\d\d\d)'
 
 will separate November 2016 from November 2015 etc. In the first example, all the November files were counted together irrespective of the year. Rows
 without matches for one value are counted as "None".
@@ -52,7 +52,7 @@ without matches for one value are counted as "None".
 DISPLAYING SAMPLE LINES
 
 
- LC_ALL=C ls ~ -l  | python3 counter.py --sample --join=year,month '(?P<month>Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Dec)  ?\d\d  ?(?P<year>2\d\d\d)'
+ LC_ALL=C ls ~ -l  | %(prog)s --sample --join=year,month '(?P<month>Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Dec)  ?\d\d  ?(?P<year>2\d\d\d)'
 
 will add a field named "sample" to the output csv. It contains the first line that matched this counter as an example.
 
@@ -61,7 +61,7 @@ DESCRIPTIVE STATISTICS
 If you have pandas and numpy installed, the matches of named regular expression groups with names ending in "_float" or "_int"
 will be converted to the corresponding pandas Series and a series.describe() will be written to STDERR.
 
-  printf "10 \n3 \n12 \n16 \n" | counter.py '(?P<n_float>\d+)'
+  printf "10 \n3 \n12 \n16 \n" | %(prog)s '(?P<n_float>\d+)'
 
 will print mean, max, min, standard deviation and quartiles for the array [10, 3, 12, 16] to STDERR
 
@@ -231,7 +231,7 @@ def convert_or_na(table,conv) :
 
 def main():
     if len(sys.argv)<2 or sys.argv[1].find("-h")>-1 :
-        print(__doc__)
+        print(__doc__ % dict(prog=sys.argv[0]))
     else :
         args=set(sys.argv)
         switches=set()

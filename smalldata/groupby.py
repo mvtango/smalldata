@@ -1,14 +1,17 @@
 #! /usr/bin/env python3
 """
-groupby.py -- command line data science
+%(prog)s -- command line data science
 
 
-USAGE: groupy.py regexp  <FILE
+USAGE: %(prog)s regexp  <FILE
 
 
-groupby.py will concatenate lines matching certain criteria from STDIN to a tab-separated single line on stdout
+%(prog)s will concatenate lines matching certain criteria from STDIN to a tab-separated single line on stdout
 
 Criteria can be: matching regexp
+
+BUG: Max. 10.000 groups are supported - there should be a command line switch for that,
+and/or a way to store more groups on disk.
 
 
 """
@@ -63,7 +66,7 @@ def process(arg) :
 
 def main():
     if len(sys.argv)<2 :
-        print(__doc__)
+        print(__doc__ % dict(prog=sys.argv[0]))
     else :
         process(sys.argv[1])
 

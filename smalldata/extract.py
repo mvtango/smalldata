@@ -1,9 +1,9 @@
 #! /usr/bin/env python3
 """
-extract.py -- command line log file processor
+%(prog)s -- command line log file processor
 
 
-USAGE: extract.py regexp1 regexp2 regexp3  <FILE
+USAGE: %(prog)s regexp1 regexp2 regexp3  <FILE
 
 will generate a CSV with header with the matches (or None if no match) for each regexp as fields. If the regexp contain
 a named group, the name of this group will be used as the header for the column.
@@ -60,7 +60,7 @@ def process(argl) :
 
 def main():
     if len(sys.argv)<2 :
-        print(__doc__)
+        print(__doc__ % dict(prog=sys.argv[0]))
     else :
         process(sys.argv[1:])
 
