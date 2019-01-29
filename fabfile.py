@@ -12,7 +12,7 @@ def build(c):
 
 
 @task
-def upload(c)
+def upload(c):
     c.run(f"""
 
      python -m twine upload dist/*
